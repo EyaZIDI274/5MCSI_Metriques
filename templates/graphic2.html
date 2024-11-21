@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Metrique</title>
+    <title>Histogramme</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   </head>
   <body>
@@ -15,17 +16,42 @@
           // Convertir les données récupérées en un tableau utilisable par Google Charts
           var dataTable = new google.visualization.DataTable();
           dataTable.addColumn('string', 'Date');
-          dataTable.addColumn('number', 'Valeur');
+          dataTable.addColumn('number', 'Température (°C)');
           data.results.forEach(entry => {
             var date = new Date(entry.Jour * 1000);
             dataTable.addRow([date.toLocaleDateString(), entry.temp]);
           });
 
-          // Configurer les options de l'histogramme
+          // Configurer les options pour l'histogramme
           var options = {
-            title: 'Histogramme des températures de Tawarano',
-            legend: { position: 'bottom' },
-            hAxis: { title: 'Date' },
-            vAxis: { title: 'Température' },
-            bar: { groupWidth: '75%' },
-            colors
+            title: 'Évolution des températures de la ville de Tawarano',
+            legend: { position: 'none' },
+            hAxis: {
+              title: 'Date',
+              slantedText: true, // Incline les labels pour plus de lisibilité
+            },
+            vAxis: {
+              title: 'Température (°C)'
+            },
+            bar: { groupWidth: '70%' }, // Largeur des barres
+            colors: ['#1E88E5'] // Couleur des barres
+          };
+
+          // Dessiner l'histogramme
+          var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+          chart.draw(dataTable, options);
+        }
+
+        // Récupération des données depuis votre API /tawarano/
+        fetch('/tawarano/')
+          .then(response => response.json())
+          .then(data => {
+            drawChart(data);
+          })
+          .catch(error => {
+            console.error('Erreur lors de la récupération des données :', error);
+          });
+      }
+    </script>
+  </body>
+</html>
