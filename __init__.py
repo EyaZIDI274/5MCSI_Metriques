@@ -30,6 +30,10 @@ def meteo():
 @app.route("/rapport/")
 def mongraphique():
     return render_template("graphic.html")
+
+@app.route("/histogramme/")
+def mongraphique2():
+    return render_template("graphic2.html")
   
 if __name__ == "__main__":
   app.run(debug=True)
