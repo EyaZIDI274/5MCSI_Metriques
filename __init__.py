@@ -35,9 +35,9 @@ def mongraphique():
 def mongraphique2():
     return render_template("graphic2.html")
 
-@app.route("/commits/")
-def mongraphique2():
-    return render_template("commit.html")
+@app.route('/commits/')
+def commits():
+    return render_template('commit.html')
   
 if __name__ == "__main__":
   app.run(debug=True)
